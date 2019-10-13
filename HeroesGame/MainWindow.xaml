@@ -1,0 +1,72 @@
+﻿<Window x:Class="Heroes.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Heroes"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="720" Width="1280">
+    <Grid x:Name="grid1">
+        <Image Source="D:\My Heap\C# Projects\Heroes\Heroes\armyspot.bmp" Margin="324,445,311,0"></Image>
+        <Rectangle Fill="#FFC9C9FF" Stroke="#FFC9C9FF" RenderTransformOrigin="0.421,-2.15" Height="244" VerticalAlignment="Bottom" Margin="0,0,902,0"/>
+        <ComboBox Name="ComboBoxPickingUnit" HorizontalAlignment="Left" Margin="10,487,0,0" VerticalAlignment="Top" Width="101" Height="27" RenderTransformOrigin="0.5,0.5" >
+            <ComboBoxItem IsSelected="True">
+
+                <TextBlock>Warrior</TextBlock>
+
+            </ComboBoxItem>
+            <ComboBoxItem IsSelected="True">
+
+                <TextBlock>Sceleton</TextBlock>
+
+            </ComboBoxItem>
+            <ComboBoxItem IsSelected="True">
+
+                <TextBlock>Lich</TextBlock>
+
+            </ComboBoxItem>
+            <ComboBoxItem IsSelected="True">
+
+                <TextBlock>Ranger</TextBlock>
+
+            </ComboBoxItem>
+            <ComboBoxItem IsSelected="True">
+
+                <TextBlock>Angel</TextBlock>
+
+            </ComboBoxItem>
+            <ComboBoxItem IsSelected="True">
+
+                <TextBlock>Demon</TextBlock>
+
+            </ComboBoxItem>
+
+        </ComboBox>
+        <TextBox Name="qt" MaxLength="6"  Margin="175,487,1043,175"></TextBox>
+        <TextBox Name="spot" MaxLength="1" Margin="116,487,1102,175"></TextBox>
+        <Button x:Name="buttonAddUnit" Content="Add Unit to Army" HorizontalAlignment="Left" Height="27" Margin="234,487,0,0" VerticalAlignment="Top" Width="103"  Click="Button_Click"/>
+        <TextBlock HorizontalAlignment="Left" Foreground="Goldenrod" TextAlignment="Center" Margin="375,493,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontStyle="Italic" FontFamily="Verdana"  FontSize="30" Height="36" Width="536">Your Army</TextBlock>
+
+
+        <TextBlock Name="Armyspot1" TextAlignment="Center" HorizontalAlignment="Left" Margin="435,558,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Height="43" Width="41" FontFamily="Verdana" Foreground="Gold"  FontSize="30"/>
+        <TextBlock Name="qtspot1" TextAlignment="Left" HorizontalAlignment="Left" Height="23" Margin="435,601,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" FontFamily="Verdana" Foreground="Gold" FontSize="15"/>
+        <TextBlock x:Name="Armyspot2" TextAlignment="Center" HorizontalAlignment="Left" Margin="505,558,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="43" Width="43" FontFamily="Verdana" Foreground="Gold"  FontSize="30"/>
+        <TextBlock x:Name="qtspot2" TextAlignment="Left" HorizontalAlignment="Left" Height="23" Margin="512,601,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="60" FontFamily="Verdana" Foreground="Gold"  FontSize="15"/>
+        <TextBlock x:Name="Armyspot3" TextAlignment="Center" HorizontalAlignment="Left" Margin="577,558,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Height="43" Width="43" FontFamily="Verdana" Foreground="Gold"  FontSize="30"/>
+        <TextBlock x:Name="qtspot3" TextAlignment="Left" HorizontalAlignment="Left" Height="23" Margin="586,601,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="60" FontFamily="Verdana" Foreground="Gold"  FontSize="15"/>
+        <TextBlock x:Name="Armyspot4" TextAlignment="Center" HorizontalAlignment="Left" Margin="646,558,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="43" Width="43" FontFamily="Verdana" Foreground="Gold" FontSize="30"/>
+        <TextBlock x:Name="qtspot4" TextAlignment="Left" HorizontalAlignment="Left" Height="23" Margin="653,601,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="60" FontFamily="Verdana" Foreground="Gold" FontSize="15"/>
+        <TextBlock x:Name="Armyspot5" TextAlignment="Center" HorizontalAlignment="Left" Margin="718,558,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Height="43" Width="43" FontFamily="Verdana" Foreground="Gold"  FontSize="30"/>
+        <TextBlock x:Name="qtspot5" TextAlignment="Left" HorizontalAlignment="Left" Height="23" Margin="724,601,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" FontFamily="Verdana" Foreground="Gold" FontSize="15"/>
+        <TextBlock x:Name="Armyspot6" TextAlignment="Center" HorizontalAlignment="Left" Margin="789,558,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Height="43" Width="43" FontFamily="Verdana" Foreground="Gold" FontSize="30"/>
+        <TextBlock x:Name="qtspot6" TextAlignment="Left" HorizontalAlignment="Left" Height="23" Margin="795,601,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="60" FontFamily="Verdana" Foreground="Gold" FontSize="15"/>
+        <TextBlock x:Name="StatusofPicking" HorizontalAlignment="Left" Margin="10,549,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="130" Width="327"/>
+        <TextBlock HorizontalAlignment="Left" TextAlignment="Center" Height="23" Margin="175,459,0,0" TextWrapping="Wrap" Text="Quantity" VerticalAlignment="Top" Width="54"/>
+        <TextBlock HorizontalAlignment="Left" TextAlignment="Center" Height="23" Margin="116,459,0,0" TextWrapping="Wrap" Text="Spot" VerticalAlignment="Top" Width="54"/>
+        <TextBlock HorizontalAlignment="Left" TextAlignment="Center" Margin="10,459,0,0" TextWrapping="Wrap" Text="Choose Unit" VerticalAlignment="Top" Height="23" Width="101"/>
+        <Rectangle Fill="#FFC9C9FF" HorizontalAlignment="Left" Height="244" Margin="916,445,0,0" Stroke="#FFC9C9FF" VerticalAlignment="Top" Width="356"/>
+        <Button  Click="finishPicking" Content="Finish" HorizontalAlignment="Left" Margin="234,522,0,0" VerticalAlignment="Top" Width="103" Height="27"/>
+        <Button Click="End" Content="End Program" HorizontalAlignment="Left" Height="69" Margin="1182,610,0,0" VerticalAlignment="Top" Width="80"/>
+    </Grid>
+
+</Window>
