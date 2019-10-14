@@ -8,15 +8,8 @@ namespace Heroes
 {
     class Lich : Unit
     {
-        private (int, int) Damag;
-
-        public Lich() : base("LICH",50,15,15,10)
+        public Lich() : base("LICH",50,15,15,(12,17),10)
         {
-
-            Damag.Item1 = 12;
-            Damag.Item2 = 17;
-         Damage = Damag;
-
         }
     }
 }

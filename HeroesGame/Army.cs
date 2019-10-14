@@ -9,12 +9,12 @@ namespace Heroes
     class Army
     {
         
-       private UnitStack spot1;
-       private UnitStack spot2;
-       private UnitStack spot3;
-       private UnitStack spot4;
-       private UnitStack spot5;
-       private UnitStack spot6;
+        private UnitStack spot1 { get; }
+        private UnitStack spot2 { get; }
+        private UnitStack spot3 { get; }
+        private UnitStack spot4 { get; }
+        private UnitStack spot5 { get; }
+        private UnitStack spot6 { get; }
         public Army(UnitStack spot1_, UnitStack spot2_, UnitStack spot3_, UnitStack spot4_, UnitStack spot5_, UnitStack spot6_)
         {
             spot1 = spot1_;
@@ -24,28 +24,6 @@ namespace Heroes
             spot5 = spot5_;
             spot6 = spot6_;
         }
-        public UnitStack GetArmy(int spot)
-        {
-            UnitStack n = new UnitStack(null,0);
-            if ((spot <= 6) && (spot > 0))
-            {
-                switch (spot)
-                {
-                    case 1:
-                        return spot1;
-                    case 2:
-                        return spot2;
-                    case 3:
-                        return spot3;
-                    case 4:
-                        return spot4;
-                    case 5:
-                        return spot5;
-                    case 6:
-                        return spot6;
-                }
-            }
-            return n;
-        }
+
     }
 }

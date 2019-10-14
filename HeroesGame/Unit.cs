@@ -9,14 +9,14 @@ namespace Heroes
     
     class Unit
     {
-        protected (int, int) Damage;
-        private string Type;
-        private int Hitpoints;
-        private int Attack;
-        private int Defence;
-        private int Initiative;
-        
-        public Unit(string typ,int hit,int att,int def,int Ini)
+        public (int, int) Damage { get; }
+        public string Type { get; }
+        public int Hitpoints { get; }
+        public int Attack { get; }
+        public int Defence { get; }
+        public int Initiative { get; }
+
+        public Unit(string typ,int hit,int att,int def,(int,int) dam,int Ini)
         {
             
             Type = typ;

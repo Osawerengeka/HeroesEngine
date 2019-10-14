@@ -8,15 +8,9 @@ namespace Heroes
 {
     class Warrior : Unit
     {
-        private (int, int) Damag;
-
-        public Warrior() : base("WARRIOR", 16, 5,3,16)
+       
+        public Warrior() : base("WARRIOR", 16, 5,3,(5,7),16)
         {
-            Damag.Item1 = 5;
-         Damag.Item2 = 7;
-         Damage = Damag;
-
-
         }
     }
 }

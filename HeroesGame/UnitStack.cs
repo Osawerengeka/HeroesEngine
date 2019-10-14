@@ -8,8 +8,8 @@ namespace Heroes
 {
     class UnitStack
     {
-        Unit _Unit_;
-        int qty;
+       public Unit _Unit_ { get; }
+       public int qty { get; }
        public UnitStack(Unit U, int qty_)
         {
             _Unit_ = U;

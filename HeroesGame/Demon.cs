@@ -8,14 +8,8 @@ namespace Heroes
 {
     class Demon:Unit
     {
-        private (int, int) Damag;
-
-        public Demon() : base("DEMON", 166, 27, 25, 11)
+       public Demon() : base("DEMON", 166, 27, 25,(36,66), 11)
         {
-            Damag.Item1 = 36;
-         Damag.Item2 = 66;
-         Damage = Damag;
-
         }
     }
 }

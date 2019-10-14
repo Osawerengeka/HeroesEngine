@@ -46,7 +46,7 @@ namespace Heroes
                 int spot_;
                 if ((int.TryParse(qt.Text, out qt_) && (int.TryParse(spot.Text, out spot_))))
                 {
-                    if ((spot_ <= 6)&&(spot_ > 0))
+                    if ((spot_ <= 6)&&(spot_ > 0)&&(qt_>0))
                     {
                         string strSpot = "Armyspot" + spot.Text;
                         string strqt = "qtspot" + spot.Text;
@@ -103,7 +103,7 @@ namespace Heroes
                       
                     }
                     else
-                        StatusofPicking.Text = StatusofPicking.Text + "\n" + "You have only 6 slots!!!";
+                        StatusofPicking.Text = StatusofPicking.Text + "\n" + "You have only 6 slots!!!" ;
                 }
                 else
                     StatusofPicking.Text = StatusofPicking.Text + "\n" + "Something got wrong:\\ \n Try again";

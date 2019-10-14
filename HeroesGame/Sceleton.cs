@@ -8,15 +8,9 @@ namespace Heroes
 {
     class Sceleton : Unit
     {
-        private (int, int) Damag;
 
-        public Sceleton() : base("SCELETON",5,1,2,10)
+        public Sceleton() : base("SCELETON",5,1,2,(1,1),10)
         {
-            Damag.Item1 = 1;
-            Damag.Item2 = 1;
-         Damage = Damag;
-
-
         }
     }
 }
