@@ -57,6 +57,9 @@
     </ApplicationDefinition>
     <Compile Include="Angel.cs" />
     <Compile Include="Army.cs" />
+    <Compile Include="Battle.cs" />
+    <Compile Include="BattleArmy.cs" />
+    <Compile Include="BattleUnitStack.cs" />
     <Compile Include="Demon.cs" />
     <Compile Include="Lich.cs" />
     <Compile Include="Ranger.cs" />

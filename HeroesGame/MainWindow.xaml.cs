@@ -13,18 +13,20 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Heroes
+namespace HeroesGame
 {
 
     public partial class MainWindow : Window
     {
-        Army firstPlayer;
-        UnitStack[] PickingArmy = new UnitStack[6];
-            
-        private void Button_Click(object sender, RoutedEventArgs e)
+        Battle battle;
+        BattleUnitStack[] PickingArmy  = new BattleUnitStack[6];
+        BattleUnitStack[] PickingArmy2 = new BattleUnitStack[6];
+
+        private void pick(ComboBox arm)
         {
-             Dictionary<string, TextBlock> textblocks = new Dictionary<string, TextBlock>()
-            { 
+           
+            Dictionary<string, TextBlock> textblocksarmy1 = new Dictionary<string, TextBlock>()
+            {
                  { "Armyspot1",Armyspot1 },
                  { "Armyspot2",Armyspot2 },
                  { "Armyspot3",Armyspot3 },
@@ -38,94 +40,172 @@ namespace Heroes
                  { "qtspot5",qtspot5 },
                  { "qtspot6",qtspot6 },
             };
-            Button button = (Button)sender;
-            if ((qt.Text != "") &&(spot.Text != ""))
+            Dictionary<string, TextBlock> textblocksarmy2 = new Dictionary<string, TextBlock>()
             {
-                
+                 { "Armyspot1",Armyspot21 },
+                 { "Armyspot2",Armyspot22 },
+                 { "Armyspot3",Armyspot23 },
+                 { "Armyspot4",Armyspot24 },
+                 { "Armyspot5",Armyspot25 },
+                 { "Armyspot6",Armyspot26 },
+                 { "qtspot1",qtspot21 },
+                 { "qtspot2",qtspot22 },
+                 { "qtspot3",qtspot23 },
+                 { "qtspot4",qtspot24 },
+                 { "qtspot5",qtspot25 },
+                 { "qtspot6",qtspot26 },
+            };
+            if ((qt.Text != "") && (spot.Text != ""))
+            {
+
                 int qt_;
                 int spot_;
                 if ((int.TryParse(qt.Text, out qt_) && (int.TryParse(spot.Text, out spot_))))
                 {
-                    if ((spot_ <= 6)&&(spot_ > 0)&&(qt_>0))
+                    if ((spot_ <= 6) && (spot_ > 0) && (qt_ > 0))
                     {
                         string strSpot = "Armyspot" + spot.Text;
                         string strqt = "qtspot" + spot.Text;
                         TextBlock textS;
                         TextBlock textQ;
+                        ComboBoxItem selectedplayer = (ComboBoxItem)Armyselect.SelectedItem;
+                        TextBlock player = (TextBlock)selectedplayer.Content;
                         ComboBoxItem selectedItem = (ComboBoxItem)ComboBoxPickingUnit.SelectedItem;
                         TextBlock hero = (TextBlock)selectedItem.Content;
-                        textblocks.TryGetValue(strSpot, out textS);
-                        textblocks.TryGetValue(strqt, out textQ);
+                        if (player.Text == "Player1")
+                        {
+                            textblocksarmy1.TryGetValue(strSpot, out textS);
+                            textblocksarmy1.TryGetValue(strqt, out textQ);
+                        }
+                        else
+                        {
+                            textblocksarmy2.TryGetValue(strSpot, out textS);
+                            textblocksarmy2.TryGetValue(strqt, out textQ);
+
+                        }
                         textS.Text = hero.Text.Substring(0, 1);
                         textQ.Text = qt.Text;
-                        
+
                         StatusofPicking.Text = StatusofPicking.Text + "\n" + "Units has been created";
                         switch (hero.Text)
                         {
                             case "Angel":
                                 {
                                     Angel a = new Angel();
-                                    PickingArmy[spot_ - 1] = new UnitStack(a, qt_);
+                                    
+                                    if (player.Text == "Player1")
+
+                                        PickingArmy[spot_ - 1] =new BattleUnitStack(new UnitStack(a, qt_));
+                                    else
+                                        PickingArmy2[spot_ - 1] = new BattleUnitStack(new UnitStack(a, qt_));
                                     break;
                                 }
                             case "Demon":
                                 {
-                                    
+
                                     Demon a = new Demon();
-                                    PickingArmy[spot_ - 1] = new UnitStack(a, qt_);
+                                   
+                                    if (player.Text == "Player1")
+                                        PickingArmy[spot_ - 1] = new BattleUnitStack(new UnitStack(a, qt_));
+                                    else
+                                        PickingArmy2[spot_ - 1] = new BattleUnitStack(new UnitStack(a, qt_));
                                     break;
                                 }
                             case "Lich":
                                 {
                                     Lich a = new Lich();
-                                    PickingArmy[spot_ - 1] = new UnitStack(a, qt_);
+                                   
+                                    if (player.Text == "Player1")
+                                        PickingArmy[spot_ - 1] = new BattleUnitStack(new UnitStack(a, qt_));
+                                    else
+                                        PickingArmy2[spot_ - 1] = new BattleUnitStack(new UnitStack(a, qt_));
                                     break;
                                 }
                             case "Ranger":
                                 {
                                     Ranger a = new Ranger();
-                                    PickingArmy[spot_ - 1] = new UnitStack(a, qt_);
+                                    if (player.Text == "Player1")
+                                      
+                                    PickingArmy[spot_ - 1] = new BattleUnitStack(new UnitStack(a, qt_));
+                                    else
+                                        PickingArmy2[spot_ - 1] = new BattleUnitStack(new UnitStack(a, qt_));
                                     break;
                                 }
                             case "Sceleton":
                                 {
                                     Sceleton a = new Sceleton();
-                                    PickingArmy[spot_ - 1] = new UnitStack(a, qt_);
+                                   
+                                    if (player.Text == "Player1")
+                                        PickingArmy[spot_ - 1] = new BattleUnitStack(new UnitStack(a, qt_));
+                                    else
+                                        PickingArmy2[spot_ - 1] = new BattleUnitStack(new UnitStack(a, qt_));
                                     break;
                                 }
                             case "Warrior":
                                 {
                                     Warrior a = new Warrior();
-                                    PickingArmy[spot_ - 1] = new UnitStack(a, qt_);
+                                   
+                                    if (player.Text == "Player1")
+                                        PickingArmy[spot_ - 1] = new BattleUnitStack(new UnitStack(a, qt_));
+                                    else
+                                        PickingArmy2[spot_ - 1] = new BattleUnitStack(new UnitStack(a, qt_));
                                     break;
                                 }
                         }
-                      
+
                     }
                     else
-                        StatusofPicking.Text = StatusofPicking.Text + "\n" + "You have only 6 slots!!!" ;
+                        StatusofPicking.Text = StatusofPicking.Text + "\n" + "You have only 6 slots!!!";
                 }
                 else
                     StatusofPicking.Text = StatusofPicking.Text + "\n" + "Something got wrong:\\ \n Try again";
 
             }
+
+
+        }   
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            pick(Armyselect);
+            
         }
 
         private void finishPicking(object sender, RoutedEventArgs e)
         {
-            buttonAddUnit.IsEnabled = false;
-            firstPlayer = new Army(PickingArmy[0], PickingArmy[1], PickingArmy[2], PickingArmy[3], PickingArmy[4], PickingArmy[5]);
-            StatusofPicking.Text = StatusofPicking.Text + "\n" + "You finished picking Army";
+            battle = new Battle(new BattleArmy(PickingArmy), new BattleArmy(PickingArmy2));
+            StatusofPicking.Text = StatusofPicking.Text + "\n" + "You finished picking first Army";
+            window1.Visibility = Visibility.Hidden;
+            windowbattle.Visibility = Visibility.Visible;
         }
 
         private void End(object sender, RoutedEventArgs e)
         {
             Environment.Exit(0);
+            
         }
+        private void arragement()
+        { }
+        private void Game()
+        {
+            for (int i = 0 ;i < battle.player1.army.Count; i++)
+            {
+                // ListboxPlayer1.Items = battle.player1.army[i];
+
+
+            }
+            
+            while (battle.winner != "")
+            {
+                battle.round++;
+                
+            }
+        }
+
+
         public MainWindow()
         {
             InitializeComponent();
-            
         }
 
        
