@@ -8,10 +8,10 @@ namespace HeroesGame
 {
     class BattleUnitStack
     {
-        int positionX;
-        int positionY;
-        bool use = true;
-        struct BUnitstack
+        public int positionX;
+        public int positionY;
+        public bool useInStep = true;
+        public struct BUnitstack
         {
             public (int, int) Damage;
             public string Type;
@@ -23,7 +23,7 @@ namespace HeroesGame
             public int qty;
 
         }
-         BUnitstack bus;
+        public BUnitstack bus;
         public BattleUnitStack(UnitStack b)
         {
             bus.qty = b.qty;
@@ -48,6 +48,9 @@ namespace HeroesGame
            
         }
         private void wait()
-        { }
+        {
+
+
+        }
     }
 }

@@ -11,8 +11,7 @@ namespace HeroesGame
        public List<BattleUnitStack> army;
         public BattleArmy(BattleUnitStack[] Pick)
         {
-            army = Pick.ToList();
-          
+            army = Pick.Where(x => x != null).ToList();
         }
         public BattleArmy(BattleArmy a)
         {

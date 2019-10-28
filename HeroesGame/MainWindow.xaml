@@ -7,7 +7,7 @@
        
         Title="MainWindow" Height="812" Width="1412">
     <Grid>
-        <Grid x:Name="window1" Visibility="Visible" IsEnabled="True" Margin="5" Grid.ColumnSpan="2">
+        <Grid x:Name="window1" Visibility="Visible" IsEnabled="True" Margin="5" Grid.ColumnSpan="2" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition  Height="5*"></RowDefinition>
@@ -20,7 +20,7 @@
             </Viewbox>
             <Viewbox  x:Name="gd" Grid.Row="1" >
                 <Canvas  Width="1369" Height="614" Background="NavajoWhite">
-                    <Image Source="D:\My Heap\C# Projects\HeroesGame\HeroesGame\armyspot.bmp" Canvas.Bottom="0" Canvas.Right="500" Height="230" Canvas.Left="432" Canvas.Top="0" Width="565"/>
+                    <Image Source="C:\Users\student.ITIP\Source\Repos\Osawerengeka\HeroesGame\HeroesGame\armyspot.bmp" Canvas.Bottom="0" Canvas.Right="500" Height="230" Canvas.Left="432" Canvas.Top="0" Width="565"/>
                     <ComboBox Name="ComboBoxPickingUnit" HorizontalAlignment="Left" VerticalAlignment="Top" Width="101" Height="27" RenderTransformOrigin="0.5,0.5" Canvas.Left="19" Canvas.Top="42" >
                         <ComboBoxItem IsSelected="True">
 
@@ -87,7 +87,7 @@
                     <Button  Click="finishPicking" Content="Finish" HorizontalAlignment="Left" VerticalAlignment="Top" Width="103" Height="27" Canvas.Left="324" Canvas.Top="74"/>
                     <Button  Click="End" Content="End Program" HorizontalAlignment="Left" Width="88" Canvas.Left="1271" Canvas.Top="558" Height="46"/>
                     <TextBlock  HorizontalAlignment="Left" TextAlignment="Center" Height="23" TextWrapping="Wrap" Text="Army" VerticalAlignment="Top" Width="76" Canvas.Left="125" Canvas.Top="13"/>
-                    <Image Source="D:\My Heap\C# Projects\HeroesGame\HeroesGame\armyspot.bmp" Canvas.Bottom="0" Canvas.Right="500" Height="230" Canvas.Left="429" Canvas.Top="257" Width="565"/>
+                    <Image Source="C:\Users\student.ITIP\Source\Repos\Osawerengeka\HeroesGame\HeroesGame\armyspot.bmp" Canvas.Bottom="0" Canvas.Right="500" Height="230" Canvas.Left="429" Canvas.Top="257" Width="565"/>
                     <TextBlock HorizontalAlignment="Right" Foreground="Goldenrod" TextAlignment="Center" TextWrapping="Wrap" FontStyle="Italic" FontFamily="Verdana"  FontSize="30" Width="536" Height="36" VerticalAlignment="Top" Canvas.Left="458" Canvas.Top="304"><Run Text="Player2"/><LineBreak/><Run/></TextBlock>
                     <TextBlock x:Name="Armyspot21" TextAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap"  VerticalAlignment="Top" Height="43" Width="43" FontFamily="Verdana" Foreground="Gold"  FontSize="30" Canvas.Left="519" Canvas.Top="364"/>
                     <TextBlock x:Name="qtspot21" TextAlignment="Left" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" FontFamily="Verdana" Foreground="Gold" FontSize="15" Canvas.Left="519" Canvas.Top="403"/>
@@ -200,7 +200,7 @@
                 <ListBoxItem Height="30" ></ListBoxItem>
                 <ListBoxItem Background="LightGray" Height="30"></ListBoxItem>
             </ListBox>
-            <ListBox  x:Name="ListboxPlayer2" Grid.Column="8" HorizontalAlignment="Left" Height="186" Margin="171,0,0,0" Grid.Row="2" VerticalAlignment="Top" Width="100" Grid.RowSpan="2">
+            <ListBox  x:Name="ListboxPlayer2" Grid.Column="8" HorizontalAlignment="Left" Height="186" Margin="143,0,0,0" Grid.Row="2" VerticalAlignment="Top" Width="100" Grid.RowSpan="2">
                 <ListBoxItem Height="30" />
                 <ListBoxItem Background="LightGray" Height="30"/>
                 <ListBoxItem Height="30" />
@@ -208,6 +208,9 @@
                 <ListBoxItem Height="30" />
                 <ListBoxItem Background="LightGray" Height="30"/>
             </ListBox>
+            <Button Content="End Turn" Grid.Column="8" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="7" VerticalAlignment="Top" Width="75" />
+            <Button Content="Magic Book" Grid.Column="8" HorizontalAlignment="Left" Margin="95,10,0,0" Grid.Row="7" VerticalAlignment="Top" Width="75"/>
+    
         </Grid>
     </Grid>
 </Window>
