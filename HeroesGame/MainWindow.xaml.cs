@@ -188,7 +188,11 @@ namespace HeroesGame
             
         }
         private void arragement()
-        { }
+        {
+
+
+
+        }
         private void Game()
         {
             for (int i = 0;i < battle.player1.army.Count; i++)
@@ -212,6 +216,7 @@ namespace HeroesGame
 
         public MainWindow()
         {
+           
             InitializeComponent();
 
             windowbattle.Visibility = Visibility.Hidden;
