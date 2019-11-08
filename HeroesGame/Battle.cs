@@ -18,8 +18,9 @@ namespace HeroesGame
             player1 = new BattleArmy(player1_);
             player2 = new BattleArmy(player2_);
         }
-        private void whosTurn()
+        private void whoWillGO()
         {
+
 
         }
         public void Begin()

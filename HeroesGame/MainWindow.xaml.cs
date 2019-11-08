@@ -18,6 +18,8 @@ namespace HeroesGame
 
     public partial class MainWindow : Window
     {
+        Dictionary<string, TextBlock> field = new Dictionary<string, TextBlock>();
+        Dictionary<BattleUnitStack, ListBoxItem> list = new Dictionary<BattleUnitStack, ListBoxItem>();
         Battle battle;
         BattleUnitStack[] PickingArmy  = new BattleUnitStack[6];
         BattleUnitStack[] PickingArmy2 = new BattleUnitStack[6];
@@ -177,6 +179,7 @@ namespace HeroesGame
             StatusofPicking.Text = StatusofPicking.Text + "\n" + "You finished picking first Army";
             window1.Visibility = Visibility.Hidden;
             windowbattle.Visibility = Visibility.Visible;
+            Game();
         }
 
         private void End(object sender, RoutedEventArgs e)
@@ -188,11 +191,15 @@ namespace HeroesGame
         { }
         private void Game()
         {
-            for (int i = 0 ;i < battle.player1.army.Count; i++)
+            for (int i = 0;i < battle.player1.army.Count; i++)
             {
-                // ListboxPlayer1.Items = battle.player1.army[i];
 
+                ListboxPlayer1.Items[i] = battle.player1.army[i].bus.Type;
 
+              //  l.Content = battle.player1.army[i].bus.Type;
+             //   list.Add(battle.player1.army[i],l);
+                
+                
             }
             
             while (battle.winner != "")
@@ -206,8 +213,14 @@ namespace HeroesGame
         public MainWindow()
         {
             InitializeComponent();
+
+            windowbattle.Visibility = Visibility.Hidden;
+            windowbattle.IsEnabled = true;
         }
 
-       
+        private void ListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }

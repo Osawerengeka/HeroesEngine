@@ -11,7 +11,7 @@ namespace HeroesGame
         int positionX;
         int positionY;
         bool use = true;
-        struct BUnitstack
+        public struct BUnitstack
         {
             public (int, int) Damage;
             public string Type;
@@ -23,7 +23,7 @@ namespace HeroesGame
             public int qty;
 
         }
-         BUnitstack bus;
+         public BUnitstack bus;
         public BattleUnitStack(UnitStack b)
         {
             bus.qty = b.qty;
