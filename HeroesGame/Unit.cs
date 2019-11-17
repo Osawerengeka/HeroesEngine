@@ -18,7 +18,7 @@ namespace HeroesGame
 
         public Unit(string typ,int hit,int att,int def,(int,int) dam,int Ini)
         {
-            
+            Damage = dam;
             Type = typ;
             Hitpoints = hit;
             Attack = att;
