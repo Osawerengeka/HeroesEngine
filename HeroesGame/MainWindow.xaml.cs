@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Threading;
 
 namespace HeroesGame
 {
@@ -25,7 +26,7 @@ namespace HeroesGame
         string selected = " ";
         ListBox l;
         Dictionary<BattleUnitStack, TextBlock> field = new Dictionary<BattleUnitStack, TextBlock>();
-        Dictionary<string, BattleUnitStack> list = new Dictionary<string,BattleUnitStack>(); // (int)1 or 2 + pos
+        Dictionary<string,BattleUnitStack> list = new Dictionary<string,BattleUnitStack>(); // (int)1 or 2 + pos
         Battle battle;
         BattleUnitStack[] PickingArmy = new BattleUnitStack[6];
         BattleUnitStack[] PickingArmy2 = new BattleUnitStack[6];
@@ -194,21 +195,21 @@ namespace HeroesGame
         { }
         private void listAdding()
         {
-            for (int i = 0; i < battle.player1.army.Count; i++)
+            for (int i = 0; i < battle.player[0].army.Count; i++)
             {
-                string str = battle.player1.army[i].bus.Type + "1" + i.ToString();
-                a.Add(battle.player1.army[i].bus.Type);
-                list.Add(str, battle.player1.army[i]);
+                string str = battle.player[0].army[i].bus.Type + "1" + i.ToString();
+                a.Add(battle.player[0].army[i].bus.Type);
+                list.Add(str, battle.player[0].army[i]);
             }
             
             ListboxPlayer1.ItemsSource = a;
           
 
-            for (int i = 0; i < battle.player2.army.Count; i++)
+            for (int i = 0; i < battle.player[1].army.Count; i++)
             {
-                string str = battle.player2.army[i].bus.Type + "2" + i.ToString();
-                b.Add(battle.player2.army[i].bus.Type);
-                list.Add(str, battle.player2.army[i]);
+                string str = battle.player[1].army[i].bus.Type + "2" + i.ToString();
+                b.Add(battle.player[1].army[i].bus.Type);
+                list.Add(str, battle.player[1].army[i]);
             }
             ListboxPlayer2.ItemsSource = b;
 
@@ -225,48 +226,64 @@ namespace HeroesGame
 
         private void chooseposition(object sender, SelectionChangedEventArgs e)
         {
-            selected = ((sender as ListBox).SelectedItem as string);
-            l = (ListBox)sender;
+          var buff = ((sender as ListBox).SelectedItem as string);
+            if (buff != null)
+            {
+                selected = ((sender as ListBox).SelectedItem as string);
+                l = (ListBox)sender;
+                    if (l.Name == "ListboxPlayer1")
+                    {
+                        selected = selected + "1";
+                    }
+                    else
+                        selected = selected + "2";
+            }
+          //  }
         }
         private void selectposition(object sender, MouseButtonEventArgs e)
-        {                    
+        {
+            string buff = selected;
                 if ((selected != " ") && (selected != null))
                 {
                      if (l.Name == "ListboxPlayer1")
                      {
-                        foreach (var a in list.Keys)
+                        foreach (var i in list.Keys)
                         {
-                            if (a.Contains(selected))
+                            if (i.Contains(selected))
                             {
-                                select = a;
-                            }
+                            select = i;
+                            int x1 = 0;
+                            x1 = selected.Length - 1;
+                            selected = selected.Substring(0, x1);
+                            a.Remove(selected);
+                        }
                         }
                      }
                     if (l.Name == "ListboxPlayer2")
                     {
-                        foreach (var b in list.Keys)
+                        foreach (var i in list.Keys)
                         {
-                            if (b.Contains(selected))
+                            if (i.Contains(selected))
                             {
-                                select = b;
+                                select = i;
+                                int x1 = 0;
+                                x1 = selected.Length - 1;
+                                selected = selected.Substring(0, x1);
+                                b.Remove(selected);
                             }
                         }
                     }
 
                     BattleUnitStack bat = list[select];
                     TextBlock t = (TextBlock)sender;
-
-              //  if (!field.ContainsKey(bat))
-               // {
                     field.Add(bat, t);
 
 
-                    t.Text = selected.Substring(0, 1);
+                    t.Text = buff.Substring(0, 1);
 
                     list.Remove(select);
-                    a.Remove(selected);
-                    b.Remove(selected);
-              //  }
+              
+             
                 if ((a.Count() + b.Count()) == 0)
                 {
                     selected = " ";
@@ -280,27 +297,49 @@ namespace HeroesGame
         }
         private void Gamelogic()
         {
-            string win = " ";
+            battle.updateUnits();
+            string win = battle.winCondition(); // winning contition
+            if (win != " ")
+            {
+                battleStatus.FontSize = 40;
+                battleStatus.Text = win + "\n";
+                for (int i = 5; i > 0; i--)
+                {
+                    Thread.Sleep(1000);
+                    battleStatus.Text ="Window will close." + i.ToString() + "Seconds";
+                }
+                Environment.Exit(0);
+            }
             battle.round++;
             round.Text = battle.round.ToString() + " Round";
             battle.queue();
-            TextBlock myKey = field[battle.player1.army[battle.whowillgo()]];
+            foreach (var a in field.Values)
+            {
+                a.Foreground = Brushes.Black;
+                
+            }
+            TextBlock myKey = field[battle.player[battle.whichTern].army[battle.whowillgo()]];
             myKey.Foreground = Brushes.Red;
         }
 
         private void move(object sender, MouseButtonEventArgs e)
         {
-            TextBlock start = field[battle.player1.army[battle.whowillgo()]];      
+
+            TextBlock start = field[battle.player[battle.whichTern].army[battle.whowillgo()]];      
             TextBlock finish = (TextBlock)sender;
             if (field.ContainsValue(finish))
             {
-                foreach (var a in field.Keys)
+                foreach (var a in field.Keys.ToArray())
                 {
                     if (field[a] == finish)
                     {
-                        string s = battle.attack(battle.player1.army[battle.whowillgo()], a);
-                        battleStatus.Text = finish.Text + " " + s + " by " + start.Text + "\n";
-                        field[battle.player1.army[battle.whowillgo()]].Foreground = Brushes.Gray;
+                        var beatbef = a.bus.qty * a.bus.StandardHitpoints + a.bus.Hitpoints;
+                        string s = battle.attack(battle.player[battle.whichTern].army[battle.whowillgo()], a);
+                        var beataft = a.bus.qty * a.bus.StandardHitpoints + a.bus.Hitpoints;
+                        battleStatus.Text = finish.Text + " " + s + " by " + start.Text + "(" + (beatbef - beataft).ToString() + ")" + "\n";
+                        field[battle.player[battle.whichTern].army[battle.whowillgo()]].Foreground = Brushes.Gray;
+                        battle.player[battle.whichTern].army[battle.whowillgo()].useInStep = false;
+                       // field[battle.player[battle.whichTern].army[battle.whowillgo()]].Foreground = Brushes.Red;
                         if (s == "Killed")
                         {
                             field.Remove(a);
@@ -312,25 +351,32 @@ namespace HeroesGame
             else
             {
                 finish.Text = start.Text;
-                field.Remove(battle.player1.army[battle.whowillgo()]);
-                field.Add(battle.player1.army[battle.whowillgo()], finish);               
-                field[battle.player1.army[battle.whowillgo()]].Foreground = Brushes.Gray;
-                battle.player1.army[battle.whowillgo()].useInStep = false;
+                field.Remove(battle.player[battle.whichTern].army[battle.whowillgo()]);
+                field.Add(battle.player[battle.whichTern].army[battle.whowillgo()], finish);               
+                field[battle.player[battle.whichTern].army[battle.whowillgo()]].Foreground = Brushes.Gray;
+                battle.player[battle.whichTern].army[battle.whowillgo()].useInStep = false;
                 start.Text = "";
+                
+                battle.whowillgo();
+                
             }
+            if (battle.endOfTheRound() == true)
+            {
+                Gamelogic();
 
-
+            }
+            field[battle.player[battle.whichTern].army[battle.whowillgo()]].Foreground = Brushes.Red;
         }
         private void waitButton(object sender, RoutedEventArgs e)
         {
-            battle.player1.army[battle.whowillgo()].bus.Initiative = 0;
+            battle.player[battle.whichTern].army[battle.whowillgo()].bus.Initiative = 0;
             battle.queue();
-            battle.player1.army[battle.whowillgo()].useInStep = false;
+            battle.player[battle.whichTern].army[battle.whowillgo()].useInStep = false;
 
         }
         private void defendButton(object sender, RoutedEventArgs e)
         {
-            battle.player1.army[battle.whowillgo()].bus.Defence *= (int)1.3;
+            battle.player[battle.whichTern].army[battle.whowillgo()].bus.Defence *= (int)1.3;
 
         }
        

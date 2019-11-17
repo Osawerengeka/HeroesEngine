@@ -31,7 +31,7 @@ namespace HeroesGame
             bus.qty = b.qty;
             bus.Damage = b._Unit_.Damage;
             bus.Type = b._Unit_.Type;
-            bus.Hitpoints = b._Unit_.Hitpoints;
+            bus.Hitpoints = 0;
             bus.StandardHitpoints = b._Unit_.Hitpoints;
             bus.Attack = b._Unit_.Attack;
             bus.Defence = b._Unit_.Defence;

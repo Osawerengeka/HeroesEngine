@@ -8,7 +8,7 @@ namespace HeroesGame
 {
     class Angel : Unit
     {
-        public Angel() : base("ANGEL", 180, 27, 271,(45,45), 45)
+        public Angel() : base("ANGEL", 180, 27, 27,(45,45), 11)
         {    
         }
     }
