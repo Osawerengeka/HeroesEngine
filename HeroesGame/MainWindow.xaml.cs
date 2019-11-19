@@ -333,12 +333,13 @@ namespace HeroesGame
                 {
                     if (field[a] == finish)
                     {
+                        int n = battle.whowillgo();
                         var beatbef = a.bus.qty * a.bus.StandardHitpoints + a.bus.Hitpoints;
-                        string s = battle.attack(battle.player[battle.whichTern].army[battle.whowillgo()], a);
+                        string s = battle.attack(battle.player[battle.whichTern].army[n], a);
                         var beataft = a.bus.qty * a.bus.StandardHitpoints + a.bus.Hitpoints;
                         battleStatus.Text = finish.Text + " " + s + " by " + start.Text + "(" + (beatbef - beataft).ToString() + ")" + "\n";
-                        field[battle.player[battle.whichTern].army[battle.whowillgo()]].Foreground = Brushes.Gray;
-                        battle.player[battle.whichTern].army[battle.whowillgo()].useInStep = false;
+                        field[battle.player[battle.whichTern].army[n]].Foreground = Brushes.Gray;
+                        battle.player[battle.whichTern].army[n].useInStep = false;
                        // field[battle.player[battle.whichTern].army[battle.whowillgo()]].Foreground = Brushes.Red;
                         if (s == "Killed")
                         {
@@ -351,8 +352,8 @@ namespace HeroesGame
             else
             {
                 finish.Text = start.Text;
-                field.Remove(battle.player[battle.whichTern].army[battle.whowillgo()]);
-                field.Add(battle.player[battle.whichTern].army[battle.whowillgo()], finish);               
+                field.Remove(battle.player[battle.whichTern].army[n]);
+                field.Add(battle.player[battle.whichTern].army[], finish);               
                 field[battle.player[battle.whichTern].army[battle.whowillgo()]].Foreground = Brushes.Gray;
                 battle.player[battle.whichTern].army[battle.whowillgo()].useInStep = false;
                 start.Text = "";

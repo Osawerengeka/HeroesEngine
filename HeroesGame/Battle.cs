@@ -43,6 +43,7 @@ namespace HeroesGame
                     flag++;
                 }
             }
+
             whichTern = (flag == 0) ? 1 : 0;
         }
         public int whowillgo()
