@@ -10,7 +10,7 @@ namespace HeroesGame
     {
         public int positionX;
         public int positionY;
-        public bool useInStep = true;
+        public bool canBeUse = true;
         public struct BUnitstack
         {
             public (int, int) Damage;

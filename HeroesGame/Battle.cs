@@ -10,7 +10,8 @@ namespace HeroesGame
     {
         public int whichTern; //0 - player1 ; 1 - player2 
         public int round = 0;
-        public List<int>[] attem = new List<int>[2]; // 0 - player 1 ; 1 - player 2       
+        public List<BattleUnitStack> attem = new List<BattleUnitStack>(18);
+      //  public List<int>[] attem = new List<int>[2]; // 0 - player 1 ; 1 - player 2       
         public BattleArmy[] player = new BattleArmy[2]; 
         public string winner = "";
         public Battle(BattleArmy player1_, BattleArmy player2_)
@@ -18,93 +19,54 @@ namespace HeroesGame
             whichTern = 0;
             player[0] = new BattleArmy(player1_);
             player[1] = new BattleArmy(player2_);
-            attem[0] = new List<int>(new int[9]);
-                   
-            attem[1] = new List<int>(new int[9]);
             ini();
-
         }
+
+
         private void ini()
         {
-            for (int i = 0;i < 9;i++)
+            for (int i = 0; i < player[0].army.Count;i++)
             {
-                attem[0][i] = -1;
-                attem[1][i] = -1;
-            }
-        }
-
-        private void whicht()
-        {
-            int flag = 0;
-            foreach (int a in attem[whichTern])
-            {
-                if ((a != -1) && (player[whichTern].army[a].useInStep == true))
-                {
-                    flag++;
-                }
-            }
-
-            whichTern = (flag == 0) ? 1 : 0;
-        }
-        public int whowillgo()
-        {
-            whicht();
-            foreach (int a in attem[whichTern])
-            {
-                if ((a != -1 )&&(player[whichTern].army[a].useInStep == true))
-                {                   
-                    return a;
-                }
-            }
-          
-            return -1;
-        }
-
-        public void queue()
-        {
-            
-            for (int i=0; i < player[0].army.Count; i++)
-            {
-                attem[0][8] = i;
-                for (int j = 7; j >= 0; j--)
-                {
-                    if (attem[0][j] == -1)
-                    {
-                        int buff = attem[0][j];
-                        attem[0][j] = i;
-                        attem[0][j + 1] = buff;
-
-                    }
-                    else if (player[0].army[i].bus.Initiative > player[0].army[attem[0][j]].bus.Initiative)
-                    {
-                        int buff = attem[0][j];
-                        attem[0][j] = i;
-                        attem[0][j+1] = buff;
-                    }
-                }
-            
+                attem.Add(player[0].army[i]);
             }
             for (int i = 0; i < player[1].army.Count; i++)
             {
-                attem[1][8] = i;
-                for (int j = 7; j >= 0; j--)
-                {
-                    if (attem[1][j] == -1)
-                    {
-                        int buff = attem[1][j];
-                        attem[1][j] = i;
-                        attem[1][j + 1] = buff;
+                attem.Add(player[1].army[i]);
+            }
 
-                    }
-                    else if (player[1].army[i].bus.Initiative > player[1].army[attem[1][j]].bus.Initiative)
+
+
+
+        }
+
+
+
+        public BattleUnitStack whowillgo()
+        {
+            for (int i = 0; i < attem.Count; i++)
+                if (attem[i].canBeUse == true)
+                {
+                    return attem[i];
+                }
+            return null;
+        }
+        
+        public void queue()
+        {
+            
+            for (int i= 0; i < player[0].army.Count + player[1].army.Count; i++)
+            {                 
+                for (int j = 0; j < player[0].army.Count + player[1].army.Count; j++)
+                {
+                    if (attem[i].bus.Initiative > attem[j].bus.Initiative)
                     {
-                        int buff = attem[1][j];
-                        attem[1][j] = i;
-                        attem[1][j + 1] = buff;
+                        BattleUnitStack tmp = attem[j];
+                        attem[j] = attem[i];
+                        attem[i] = tmp;
                     }
                 }
-
-            }
+            
+            }      
         }
 
         public void Kill(BattleUnitStack def)
@@ -157,14 +119,14 @@ namespace HeroesGame
             int flag = 0;
             foreach(var a in player[0].army)
             {
-                if (a.useInStep == false)
+                if (a.canBeUse == false)
                 {
                     flag++;
                 }
             }
             foreach (var a in player[1].army)
             {
-                if (a.useInStep == false)
+                if (a.canBeUse == false)
                 {
                     flag++;
                 }
@@ -178,23 +140,23 @@ namespace HeroesGame
         }
         public void wait(BattleUnitStack u)
         {
-            u.bus.Initiative = 0;
+            u.bus.Initiative = -u.bus.Initiative;
             queue();
         }
         public void defend(BattleUnitStack u)
         {
             u.bus.Defence *=(int)1.3;
-
+            u.canBeUse = false;
         }
         public void updateUnits()
         {
             foreach (var a in player[0].army)
             {
-                a.useInStep = true;
+                a.canBeUse = true;
             }
             foreach (var a in player[1].army)
             {
-                a.useInStep = true;
+                a.canBeUse = true;
             }
         }
 
