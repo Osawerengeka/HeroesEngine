@@ -30,6 +30,12 @@ namespace HeroesGame
             public int posInArmy;
             public int army;
         }
+        public struct TextblockInfo
+        {
+
+
+
+        }
         listinfo ListboxElement;
         ObservableCollection<string> a = new ObservableCollection<string>();
         ObservableCollection<string> b = new ObservableCollection<string>();
@@ -245,7 +251,7 @@ namespace HeroesGame
             {
                 selected = buff;           
                 l = (ListBox)sender;
-               
+              //  ((l.SelectedItem) as TextBox).Foreground = Brushes.Gray;      
             }
          
         }
@@ -312,21 +318,17 @@ namespace HeroesGame
             string win = battle.winCondition(); // winning contition
             if (win != " ")
             {
-                battleStatus.FontSize = 40;
+                battleStatus.FontSize = 30;
                 battleStatus.Text = win + "\n";
-                for (int i = 5; i > 0; i--)
-                {
-                    Thread.Sleep(1000);
-                    battleStatus.Text ="Window will close." + i.ToString() + "Seconds";
-                }
+               
                 Environment.Exit(0);
             }
             battle.round++;
             round.Text = battle.round.ToString() + " Round";
             battle.queue();
-            foreach (var a in field.Values)
+            foreach (var a in field.Keys)
             {
-                a.Foreground = Brushes.Black;
+                battle.colorise(a,field[a]);
                 
             }
             TextBlock myKey = field[battle.whowillgo()];
@@ -334,9 +336,9 @@ namespace HeroesGame
         }
         private void move(object sender, MouseButtonEventArgs e)
         {
-            /*
-            int n = battle.whowillgo();
-            TextBlock start = field[battle.player[battle.whichTern].army[n]];      
+            
+            var unit = battle.whowillgo();
+            TextBlock start = field[unit];      
             TextBlock finish = (TextBlock)sender;
             if (field.ContainsValue(finish))
             {
@@ -346,10 +348,10 @@ namespace HeroesGame
                     {
                         
                         var beatbef = a.bus.qty * a.bus.StandardHitpoints + a.bus.Hitpoints;
-                        string s = battle.attack(battle.player[battle.whichTern].army[n], a);
+                        string s = battle.attack(unit, a);
                         var beataft = a.bus.qty * a.bus.StandardHitpoints + a.bus.Hitpoints;
                         battleStatus.Text = finish.Text + " " + s + " by " + start.Text + "(" + (beatbef - beataft).ToString() + ")" + "\n";                     
-                       // field[battle.player[battle.whichTern].army[battle.whowillgo()]].Foreground = Brushes.Red;
+                      
                         if (s == "Killed")
                         {
                             field.Remove(a);
@@ -361,39 +363,59 @@ namespace HeroesGame
             else
             {
                 finish.Text = start.Text;
-                field.Remove(battle.player[battle.whichTern].army[n]);
-                field.Add(battle.player[battle.whichTern].army[n], finish);                        
+                field.Remove(unit);
+                field.Add(unit, finish);                        
                 start.Text = ""; 
             }
+
+            unit.canBeUse = false;
             if (battle.endOfTheRound() == true)
             {
                 Gamelogic();
-
+                return;
             }
-            field[battle.player[battle.whichTern].army[n]].Foreground = Brushes.Gray;
-            battle.player[battle.whichTern].army[n].useInStep = false;
-            battle.whicht();
+           
+            battle.colorise(unit, field[unit]);
 
-            field[battle.player[battle.whichTern].army[battle.whowillgo()]].Foreground = Brushes.Red;
-            */
+            unit = battle.whowillgo();
+            field[unit].Foreground = Brushes.Red;
+            
+        }
+        private void RedGuy()
+        {
+            var unit = battle.whowillgo();
+            if (unit != null)
+            {
+                field[unit].Foreground = Brushes.Red;
+            }        
         }
         private void waitButton(object sender, RoutedEventArgs e)
         {
-          //  battle.player[battle.whichTern].army[battle.whowillgo()].bus.Initiative = 0;
+            var unit = battle.whowillgo();
+            battle.wait(unit);
             battle.queue();
-           // battle.player[battle.whichTern].army[battle.whowillgo()].useInStep = false;
+            battle.colorise(unit, field[unit]);
+
+            unit = battle.whowillgo();
+
+            field[unit].Foreground = Brushes.Red;
 
         }
         
         private void defendButton(object sender, RoutedEventArgs e)
         {
-          //  battle.player[battle.whichTern].army[battle.whowillgo()].bus.Defence *= (int)1.3;
+            var unit = battle.whowillgo();
+            battle.defend(unit);
+            battle.colorise(unit, field[unit]);
 
+            unit = battle.whowillgo();
+            field[unit].Foreground = Brushes.Red;
         }
        
         private void defeatButton(object sender, RoutedEventArgs e)
         {
-
+            var unit = battle.whowillgo();
+            battle.defeat(unit);
         }
         
     }

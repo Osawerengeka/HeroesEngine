@@ -1,8 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Threading;
 
 namespace HeroesGame
 {
@@ -33,12 +44,38 @@ namespace HeroesGame
             {
                 attem.Add(player[1].army[i]);
             }
-
-
-
-
         }
 
+        public void colorise(BattleUnitStack u, TextBlock text)
+        {
+            if (u.canBeUse == true)
+            {
+                if (player[0].army.Contains(u))
+                {
+                    text.Foreground = Brushes.Green;
+
+                }
+                if (player[1].army.Contains(u))
+                {
+                    text.Foreground = Brushes.Blue;
+
+                }
+            }
+            else
+            {
+                if (player[0].army.Contains(u))
+                {
+                    text.Foreground = Brushes.LightGreen;
+
+                }
+                if (player[1].army.Contains(u))
+                {
+                    text.Foreground = Brushes.LightBlue;
+
+                }
+
+            }
+        }
 
 
         public BattleUnitStack whowillgo()
@@ -114,6 +151,11 @@ namespace HeroesGame
             def.bus.Hitpoints = (beat - totaldamage) % def.bus.StandardHitpoints;
             return "Damaged";
         }
+        public void counterAttack()
+        {
+            //атака в половину от стандартной
+
+        }
         public bool endOfTheRound()
         {
             int flag = 0;
@@ -122,6 +164,7 @@ namespace HeroesGame
                 if (a.canBeUse == false)
                 {
                     flag++;
+                    a.bus.Initiative = a.bus.StandardInitiative;
                 }
             }
             foreach (var a in player[1].army)
@@ -129,6 +172,7 @@ namespace HeroesGame
                 if (a.canBeUse == false)
                 {
                     flag++;
+                    a.bus.Initiative = a.bus.StandardInitiative;
                 }
             }
             if (flag == (player[0].army.Count + player[1].army.Count))
@@ -140,6 +184,7 @@ namespace HeroesGame
         }
         public void wait(BattleUnitStack u)
         {
+            
             u.bus.Initiative = -u.bus.Initiative;
             queue();
         }
@@ -147,6 +192,21 @@ namespace HeroesGame
         {
             u.bus.Defence *=(int)1.3;
             u.canBeUse = false;
+        }
+        public string defeat(BattleUnitStack u)
+        {
+            string str = " ";
+                if (player[0].army.Contains(u))
+                {
+                str = "player 2 wins this battle";
+                }
+                if (player[1].army.Contains(u))
+                {
+                str = "player 1 wins this battle";
+                }
+            
+            return str;
+
         }
         public void updateUnits()
         {
