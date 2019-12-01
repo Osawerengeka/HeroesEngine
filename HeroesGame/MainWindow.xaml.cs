@@ -30,15 +30,16 @@ namespace HeroesGame
             public int posInArmy;
             public int army;
         }
-        public struct TextblockInfo
-        {
 
-
-
-        }
-        listinfo ListboxElement;
         ObservableCollection<string> a = new ObservableCollection<string>();
         ObservableCollection<string> b = new ObservableCollection<string>();
+        ObservableCollection<string> feat = new ObservableCollection<string>();
+
+        bool usingMagic = false;
+        string nameOfSpells;
+
+
+
         string select;
         string selected;
         //string ListboxElement = " ";
@@ -262,7 +263,7 @@ namespace HeroesGame
             string buff = selected;
 
             if ((selected != " ") && (selected != null))
-                {
+            {
 
                 if (l.Name == "ListboxPlayer1")
                 {
@@ -270,12 +271,13 @@ namespace HeroesGame
                     {
                         if ((i.showingName == selected) && (i.army == 0) && (l.SelectedIndex == i.posincoll))
                         {
-                            
+
                             flag = i;
-                          //  a.RemoveAt(i.posincoll);                         
+
+                            //  a.RemoveAt(i.posincoll);                         
                         }
                     }
-                    
+
                 }
                 if (l.Name == "ListboxPlayer2")
                 {
@@ -284,18 +286,19 @@ namespace HeroesGame
                         if ((i.showingName == selected) && (i.army == 1) && (l.SelectedIndex == i.posincoll))
                         {
                             flag = i;
-                          //  b.RemoveAt(i.posincoll);
+                            //  b.RemoveAt(i.posincoll);
                         }
                     }
-                    
+
                 }
                 kol++;
-                    BattleUnitStack bat = list[flag];
-                    TextBlock tb = (TextBlock)sender;
-                    field.Add(bat, tb);
-                    tb.Text = buff.Substring(0, 1);
-                    list.Remove(flag);
-                   
+                BattleUnitStack bat = list[flag];
+                TextBlock tb = (TextBlock)sender;
+                textTip(tb, bat);
+                field.Add(bat, tb);
+                tb.Text = buff.Substring(0, 1);
+                list.Remove(flag);
+
 
 
 
@@ -303,12 +306,62 @@ namespace HeroesGame
                 {
                     selected = " ";
                     a.Clear();
-                       b.Clear();
+                    b.Clear();
                     ListboxPlayer1.Visibility = Visibility.Collapsed;
                     ListboxPlayer2.Visibility = Visibility.Collapsed;
                     ListboxPlayer1.IsEnabled = false;
                     ListboxPlayer2.IsEnabled = false;
                     Gamelogic();
+                }
+            }
+            else if (usingMagic == true)
+            {
+                var unit = battle.whowillgo();
+                var finish = (TextBlock)sender;
+                if (field.ContainsValue(finish))
+                {
+                    List<BattleUnitStack> a = field.Keys.ToList();
+                    for (int i = 0;i<field.Keys.Count;i++) { 
+                   // foreach (var a in field.Keys.ToArray())
+                  //  {
+                        if (field[a[i]] == finish)
+                        {
+                            battleStatus.Text = battle.Magic(nameOfSpells, unit, a[i]) + "\n";
+                            if (battleStatus.Text.Contains("Killed"))
+                            {
+                                //field[a[i]].Foreground = Brushes.Black;
+                                field[a[i]].Text = "";
+                                field[a[i]].ToolTip = null;
+                              
+                            }
+                            if (battleStatus.Text.Contains("Was Failed by"))
+                            {
+                               // field[a[i]].Foreground = Brushes.Black;
+                                field[unit].Text = "";
+                                field[unit].ToolTip = null;
+
+                            }
+                            textTip(field[a[i]],a[i]);
+                            textTip(field[unit], unit);
+                            if (battle.endOfTheRound() == true)
+                            {
+                                Gamelogic();
+                            }
+                            if (battle.winner == "")
+                            {
+                                listOfSpells();
+                                battle.colorise(unit, field[unit]);
+
+                                unit = battle.whowillgo();
+
+                                if (unit != null)
+                                {
+                                    field[unit].Foreground = Brushes.Red;
+                                }
+                            }
+                        }
+
+                    }
                 }
             }
         }
@@ -320,42 +373,94 @@ namespace HeroesGame
             {
                 battleStatus.FontSize = 30;
                 battleStatus.Text = win + "\n";
-               
-                Environment.Exit(0);
+
+           //     Environment.Exit(0);
             }
-            battle.round++;
-            round.Text = battle.round.ToString() + " Round";
-            battle.queue();
-            foreach (var a in field.Keys)
+            else
             {
-                battle.colorise(a,field[a]);
-                
+                battle.round++;
+                round.Text = battle.round.ToString() + " Round";
+                battle.queue();
+                listOfSpells();
+                foreach (var a in field.Keys)
+                {
+                    battle.colorise(a, field[a]);
+
+                }
+                TextBlock myKey = field[battle.whowillgo()];
+                myKey.Foreground = Brushes.Red;
             }
-            TextBlock myKey = field[battle.whowillgo()];
-            myKey.Foreground = Brushes.Red;
+        }
+
+        private void textTip(TextBlock t,BattleUnitStack b)
+        {
+            ToolTip toolTip = new ToolTip();
+            StackPanel toolTipPanel = new StackPanel();
+            toolTipPanel.Children.Add(new TextBlock { Text = b.bus.Type , FontSize = 16 });
+            toolTipPanel.Children.Add(new TextBlock { Text ="Quanity :" + b.bus.qty.ToString() });
+            toolTipPanel.Children.Add(new TextBlock { Text = "Beat :" + ((b.bus.qty * b.bus.StandardHitpoints)+b.bus.Hitpoints).ToString() });
+            List<string> s = b.mdf.Texttip();
+            if (s != null)
+            {
+                foreach (var a in s)
+                    toolTipPanel.Children.Add(new TextBlock { Text = a });
+            }
+            else
+            {
+                toolTipPanel.Children.Add(new TextBlock { Text = " NO Modificators" });
+            }
+            toolTip.Content = toolTipPanel;
+            t.ToolTip = toolTip;
+
+        }
+        private void textTip(TextBlock start,TextBlock finish,BattleUnitStack b)
+        {
+            finish.ToolTip = start.ToolTip;
+            start.ToolTip = null;
+
+        }
+        private void textTip(TextBlock del)
+        {
+            del.ToolTip = null;
+
         }
         private void move(object sender, MouseButtonEventArgs e)
         {
             
             var unit = battle.whowillgo();
-            TextBlock start = field[unit];      
+            TextBlock start = field[unit]; 
+           
             TextBlock finish = (TextBlock)sender;
             if (field.ContainsValue(finish))
             {
-                foreach (var a in field.Keys.ToArray())
+                List<BattleUnitStack> a = field.Keys.ToList();
+                for (int i = 0; i < field.Keys.Count; i++)
                 {
-                    if (field[a] == finish)
+                //    foreach (var a in field.Keys.ToArray())
+             //   {
+                    if (field[a[i]] == finish)
                     {
                         
-                        var beatbef = a.bus.qty * a.bus.StandardHitpoints + a.bus.Hitpoints;
-                        string s = battle.attack(unit, a);
-                        var beataft = a.bus.qty * a.bus.StandardHitpoints + a.bus.Hitpoints;
-                        battleStatus.Text = finish.Text + " " + s + " by " + start.Text + "(" + (beatbef - beataft).ToString() + ")" + "\n";                     
-                      
+                        var beatbef = a[i].bus.qty * a[i].bus.StandardHitpoints + a[i].bus.Hitpoints;
+                        string s = battle.attack(unit, a[i]);                      
+                        textTip( field[unit], unit);
+                        textTip(field[a[i]], a[i]);
+                        if (s == "Same Army")
+                        {
+
+                            battleStatus.Text = "Same Army. Choose another action" + "\n";
+                            return;
+                        }
+                        else
+                        {
+                            battleStatus.Text = finish.Text + " " + s + " by " + start.Text  + "\n";
+                        }
                         if (s == "Killed")
                         {
-                            field.Remove(a);
+                            field.Remove(a[i]);
+                            textTip(finish);
                             finish.Text = "";
+                            finish.Foreground = Brushes.Black;
                         }
                     }
                 }
@@ -365,21 +470,29 @@ namespace HeroesGame
                 finish.Text = start.Text;
                 field.Remove(unit);
                 field.Add(unit, finish);                        
-                start.Text = ""; 
+                start.Text = "";
+                start.Foreground = Brushes.Black;
+                textTip(start, finish, unit);
             }
 
             unit.canBeUse = false;
             if (battle.endOfTheRound() == true)
             {
                 Gamelogic();
-                return;
             }
-           
-            battle.colorise(unit, field[unit]);
+            if (battle.winner == "")
+            {
+                battle.colorise(unit, field[unit]);
+                listOfSpells();
+                
 
-            unit = battle.whowillgo();
-            field[unit].Foreground = Brushes.Red;
-            
+                unit = battle.whowillgo();
+  
+                if (unit != null)
+                {
+                    field[unit].Foreground = Brushes.Red;
+                }
+            }
         }
         private void RedGuy()
         {
@@ -391,25 +504,54 @@ namespace HeroesGame
         }
         private void waitButton(object sender, RoutedEventArgs e)
         {
+            
             var unit = battle.whowillgo();
             battle.wait(unit);
             battle.queue();
+            listOfSpells();
             battle.colorise(unit, field[unit]);
 
-            unit = battle.whowillgo();
+            if (battle.endOfTheRound() == true)
+            {
+                Gamelogic();
+            }
+            if (battle.winner == "")
+            {
+                
 
-            field[unit].Foreground = Brushes.Red;
-
+                unit = battle.whowillgo();
+                battle.colorise(unit, field[unit]);
+                if (unit != null)
+                {                  
+                    field[unit].Foreground = Brushes.Red;
+                }
+            }
         }
-        
+
+
+
         private void defendButton(object sender, RoutedEventArgs e)
         {
             var unit = battle.whowillgo();
             battle.defend(unit);
-            battle.colorise(unit, field[unit]);
-
-            unit = battle.whowillgo();
-            field[unit].Foreground = Brushes.Red;
+            listOfSpells();
+            if (battle.endOfTheRound() == true)
+            {
+                Gamelogic();
+            }
+            if (battle.winner == "")
+            {
+                
+               
+                
+                unit = battle.whowillgo();
+                battle.colorise(unit, field[unit]);
+                listOfSpells();
+                if (unit != null)
+                {
+                    field[unit].Foreground = Brushes.Red;
+                }
+            }
         }
        
         private void defeatButton(object sender, RoutedEventArgs e)
@@ -417,6 +559,79 @@ namespace HeroesGame
             var unit = battle.whowillgo();
             battle.defeat(unit);
         }
-        
+
+        private void chooseabil(object sender, SelectionChangedEventArgs e)
+        {
+            var unit = battle.whowillgo();
+            string s = ((sender as ListBox).SelectedItem as string);
+            if ((s != "Default Modificators :") || (s != "Default Spells :"))
+            {
+
+                if (s == "Fire_Ball")
+                {
+                    usingMagic = true;
+                    nameOfSpells = s;
+                }
+                if (s == "Ice_Ball")
+                {
+                    usingMagic = true;
+                    nameOfSpells = s;
+                }
+                if (s == "Extra_Defence")
+                { 
+                    battleStatus.Text = battle.Magic(s, unit) + "\n";
+                }
+                if (s == "Double_Attack")
+                {
+                    usingMagic = true;
+                    nameOfSpells = s;
+                }
+                if (s == "Extra_Damage")
+                {
+                   battleStatus.Text = battle.Magic(s,unit) + "\n";
+                }
+                if (s == "Extra_Initiative")
+                {
+                    battleStatus.Text = battle.Magic(s, unit) + "\n";
+                }
+            }
+
+            if (battle.endOfTheRound() == true)
+            {
+                Gamelogic();
+            }
+            if (battle.winner == "")
+            {
+                battle.colorise(unit, field[unit]);
+
+                unit = battle.whowillgo();
+                if (unit != null)
+                {
+                    field[unit].Foreground = Brushes.Red;
+                }
+            }
+
+        }
+        private void listOfSpells()
+        {
+            feat.Clear();
+            var unit = battle.whowillgo();
+            feat.Add("Default Modificators :");
+            foreach (var a in unit.mdf.mod.all.Keys)
+            {
+                if(unit.mdf.mod.all[a].canBeUsed == true)
+                feat.Add(a);
+
+            }
+            feat.Add("\nDefault Spells (Clickable) :");
+            foreach (var a in unit.mdf.spells.all.Keys)
+            {
+                if (unit.mdf.spells.all[a].canBeUsed == true)
+                  feat.Add(a);
+
+            }
+            abilities.ItemsSource = feat;
+        }
+    
     }
 }

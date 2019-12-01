@@ -64,6 +64,7 @@
     <Compile Include="Lich.cs" />
     <Compile Include="main.cs" />
     <Compile Include="MainWindow.cs" />
+    <Compile Include="Modificators.cs" />
     <Compile Include="Ranger.cs" />
     <Compile Include="Sceleton.cs" />
     <Compile Include="Unit.cs" />

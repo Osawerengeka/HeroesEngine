@@ -11,7 +11,9 @@ namespace HeroesGame
         public int positionX;
         public int positionY;
         public bool canBeUse = true;
+        public int army;
         
+
         public struct BUnitstack
         {
             public (int, int) Damage;
@@ -27,6 +29,7 @@ namespace HeroesGame
 
         }
         public BUnitstack bus;
+        public Posibilities mdf;
         public BattleUnitStack(UnitStack b)
         {
             bus.qty = b.qty;
@@ -39,6 +42,7 @@ namespace HeroesGame
             bus.StandardDefence = b._Unit_.Defence;
             bus.Initiative = b._Unit_.Initiative;
             bus.StandardInitiative = b._Unit_.Initiative;
+            mdf = new Posibilities(b._Unit_.Type);
         }
         public void changeParametrs((int,int) damch,int hitpointsch,int attch,int defch,int inich)
         {
