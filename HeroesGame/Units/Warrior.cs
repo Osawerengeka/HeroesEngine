@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace HeroesGame
 {
-    class Sceleton : Unit
+    class Warrior : Unit
     {
-
-        public Sceleton() : base("SCELETON",5,1,2,(1,1),10)
+       
+        public Warrior() : base("WARRIOR", 16, 5,3,(5,7),16)
         {
+            abl.Add(new Abilities.Double_Attack());
+
         }
     }
 }

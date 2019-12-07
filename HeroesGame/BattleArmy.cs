@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HeroesGame
 {
-    class BattleArmy
+    public class BattleArmy
     {
        public List<BattleUnitStack> army;
         public BattleArmy(BattleUnitStack[] Pick)

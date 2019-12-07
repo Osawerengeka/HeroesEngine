@@ -14,11 +14,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
-
+using System.Reflection;
 namespace HeroesGame
 {
-    class Battle
+    public class Battle
     {
+        //Assembly l = new Assembly();
         public int counter = 0;
         public int whichTern; //0 - player1 ; 1 - player2 
         public int round = 0;
@@ -108,14 +109,20 @@ namespace HeroesGame
             }
         }
 
+
+
         public void Kill(BattleUnitStack def)
         {
             if (player[0].army.Contains(def))
             {
                 player[0].army.Remove(def);
+                attem.Remove(def);
             }
-            else
+            else if (player[1].army.Contains(def))
+            {
                 player[1].army.Remove(def);
+                attem.Remove(def);
+            }
         }
 
         public string attack(BattleUnitStack att, BattleUnitStack def)
@@ -158,7 +165,7 @@ namespace HeroesGame
                 def.bus.qty = (beat - totaldamage) / def.bus.StandardHitpoints;
                 def.bus.Hitpoints = (beat - totaldamage) % def.bus.StandardHitpoints;
               //  att.canBeUse = false;
-                if ((att.mdf.mod.all["No_Counter"].canBeUsed == false)&&(counter == 0))
+                if (!(att.mod.Contains(new Modificators.No_Counter()))&&(counter == 0))
                  {
                     counter++;
                     var a = counterAttack(att,def);
@@ -250,31 +257,27 @@ namespace HeroesGame
             {
                 a.canBeUse = true;
                 
-                foreach (var b in a.mdf.spells.all.Values)
+                foreach (var b in a.abl)
                 {
-                    if (b.coolDown > 0)
-                        b.coolDown -= 1;
+                    if (b.cooldown > 0)
+                        b.cooldown -= 1;
  
                 }
             }
             foreach (var a in player[1].army)
             {
                 a.canBeUse = true;
-                foreach (var b in a.mdf.mod.all.Values)
-                {
-                    if (b.coolDown > 0)
-                        b.coolDown -= 1;
 
-                }
-                foreach (var b in a.mdf.spells.all.Values)
+                foreach (var b in a.abl)
                 {
-                    if (b.coolDown > 0)
-                        b.coolDown -= 1;
+                    if (b.cooldown > 0)
+                        b.cooldown -= 1;
 
                 }
             }
         }
 
+        /*
         public string Magic(string f, BattleUnitStack b, BattleUnitStack def = null)
         {
             if (b.mdf.spells.all[f].coolDown == 0)
@@ -379,7 +382,7 @@ namespace HeroesGame
             }
             return "Not ready.Wait " + b.mdf.spells.all[f].coolDown + " rounds";
         }
-
+        */
         public string winCondition()
         {
             if (player[0].army.Count == 0)
@@ -402,9 +405,6 @@ namespace HeroesGame
         {
             round++;
             queue();
-
-            int term = 1; // 1 - player1 2 - player2
-
 
         }
     }

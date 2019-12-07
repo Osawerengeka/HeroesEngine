@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -55,21 +58,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Angel.cs" />
+    <Compile Include="Abilities\Double_Attack.cs" />
+    <Compile Include="Abilities\Extra_Damage.cs" />
+    <Compile Include="Abilities\Fire_Ball.cs" />
+    <Compile Include="Abilities\Ice_Ball.cs" />
+    <Compile Include="Units\Angel.cs" />
     <Compile Include="Army.cs" />
     <Compile Include="Battle.cs" />
     <Compile Include="BattleArmy.cs" />
     <Compile Include="BattleUnitStack.cs" />
-    <Compile Include="Demon.cs" />
-    <Compile Include="Lich.cs" />
+    <Compile Include="Units\Demon.cs" />
+    <Compile Include="Units\Lich.cs" />
     <Compile Include="main.cs" />
     <Compile Include="MainWindow.cs" />
     <Compile Include="Modificators.cs" />
-    <Compile Include="Ranger.cs" />
-    <Compile Include="Sceleton.cs" />
+    <Compile Include="Modificators\Fire_Imm.cs" />
+    <Compile Include="Modificators\Ice_Imm.cs" />
+    <Compile Include="Modificators\No_Counter.cs" />
+    <Compile Include="Units\Ranger.cs" />
+    <Compile Include="Units\Sceleton.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="UnitStack.cs" />
-    <Compile Include="Warrior.cs" />
+    <Compile Include="Units\Warrior.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

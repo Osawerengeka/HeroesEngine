@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HeroesGame
 {
-    class UnitStack
+    public class UnitStack
     {
        public Unit _Unit_ { get; }
        public int qty { get; }

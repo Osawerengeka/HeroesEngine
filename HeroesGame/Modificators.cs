@@ -18,8 +18,24 @@ using System.Threading;
 
 namespace HeroesGame
 {
+    public interface Ispell
+    {
+       void Doing(BattleUnitStack UsedUnit , BattleUnitStack OpposeUnit = null,Battle battle = null);
+       string Name { get; set; }
+        bool solo { get; set; }
+        int cooldown { get; set; }
+        int duration { get; set; }
 
-   
+    }
+    public interface Imod
+    {
+        //void doing(BattleUnitStack UsedUnit, BattleUnitStack OpposeUnit = null);
+        string Name { get; set; }
+        int Term { get; set; }
+
+    }
+
+
 
     public class Mod
     {
@@ -35,7 +51,8 @@ namespace HeroesGame
         }
     }
 
-    class AllModificators
+    /*
+    public class AllModificators
     {
 
         public const int HOW_MANY_MODIFICATORS = 3;
@@ -56,7 +73,7 @@ namespace HeroesGame
         }
 
     }
-    class AllSpells
+    public class AllSpells
     {
         public const int HOW_MANY_SPELLS = 6;
 
@@ -85,7 +102,7 @@ namespace HeroesGame
 
     }
 
-    class Posibilities
+    public class Posibilities
     {
         
         
@@ -180,6 +197,5 @@ namespace HeroesGame
             }
 
         }
-
+        */
     }
-}

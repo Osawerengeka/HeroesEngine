@@ -14,6 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
+using HeroesGame.Units;
+
 
 namespace HeroesGame
 {
@@ -236,7 +238,26 @@ namespace HeroesGame
      
         }
 
+        private void endturn(BattleUnitStack unit)
+        {
+            if (battle.endOfTheRound() == true)
+            {
+                Gamelogic();
+            }
+            if (battle.winner == "")
+            {
+                listOfSpells();
+                battle.colorise(unit, field[unit]);
 
+                unit = battle.whowillgo();
+
+                if (unit != null)
+                {
+                    field[unit].Foreground = Brushes.Red;
+                }
+            }
+
+        }
         public MainWindow()
         {
             InitializeComponent();
@@ -322,43 +343,27 @@ namespace HeroesGame
                 {
                     List<BattleUnitStack> a = field.Keys.ToList();
                     for (int i = 0;i<field.Keys.Count;i++) { 
-                   // foreach (var a in field.Keys.ToArray())
-                  //  {
                         if (field[a[i]] == finish)
                         {
-                            battleStatus.Text = battle.Magic(nameOfSpells, unit, a[i]) + "\n";
-                            if (battleStatus.Text.Contains("Killed"))
+                            spellsList[nameOfSpells].Doing(unit, a[i],battle);
+                         
+                            if (!battle.player[a[i].army].army.Contains(a[i]))
                             {
-                                //field[a[i]].Foreground = Brushes.Black;
+                                battleStatus.Text = "Was Killed";
                                 field[a[i]].Text = "";
                                 field[a[i]].ToolTip = null;
                               
                             }
-                            if (battleStatus.Text.Contains("Was Failed by"))
+                            if (!battle.player[unit.army].army.Contains(unit))
                             {
-                               // field[a[i]].Foreground = Brushes.Black;
+                                battleStatus.Text = "Was Failed";
                                 field[unit].Text = "";
                                 field[unit].ToolTip = null;
 
                             }
                             textTip(field[a[i]],a[i]);
                             textTip(field[unit], unit);
-                            if (battle.endOfTheRound() == true)
-                            {
-                                Gamelogic();
-                            }
-                            if (battle.winner == "")
-                            {
-                                listOfSpells();
-                                battle.colorise(unit, field[unit]);
-
-                                unit = battle.whowillgo();
-
-                                if (unit != null)
-                                {
-                                    field[unit].Foreground = Brushes.Red;
-                                }
-                            }
+                            endturn(unit);
                         }
 
                     }
@@ -399,11 +404,11 @@ namespace HeroesGame
             toolTipPanel.Children.Add(new TextBlock { Text = b.bus.Type , FontSize = 16 });
             toolTipPanel.Children.Add(new TextBlock { Text ="Quanity :" + b.bus.qty.ToString() });
             toolTipPanel.Children.Add(new TextBlock { Text = "Beat :" + ((b.bus.qty * b.bus.StandardHitpoints)+b.bus.Hitpoints).ToString() });
-            List<string> s = b.mdf.Texttip();
+            List<Imod> s = b.mod;
             if (s != null)
             {
                 foreach (var a in s)
-                    toolTipPanel.Children.Add(new TextBlock { Text = a });
+                    toolTipPanel.Children.Add(new TextBlock { Text = a.Name });
             }
             else
             {
@@ -436,8 +441,6 @@ namespace HeroesGame
                 List<BattleUnitStack> a = field.Keys.ToList();
                 for (int i = 0; i < field.Keys.Count; i++)
                 {
-                //    foreach (var a in field.Keys.ToArray())
-             //   {
                     if (field[a[i]] == finish)
                     {
                         
@@ -451,7 +454,7 @@ namespace HeroesGame
                             battleStatus.Text = "Same Army. Choose another action" + "\n";
                             return;
                         }
-                        else
+                        else if (s =="Damaged")
                         {
                             battleStatus.Text = finish.Text + " " + s + " by " + start.Text  + "\n";
                         }
@@ -461,6 +464,14 @@ namespace HeroesGame
                             textTip(finish);
                             finish.Text = "";
                             finish.Foreground = Brushes.Black;
+                        }
+                        if (s == "Was Failed by")
+                        {
+                            field.Remove(unit);
+                            textTip(start);
+                            start.Text = "";
+                            start.Foreground = Brushes.Black;
+
                         }
                     }
                 }
@@ -476,23 +487,7 @@ namespace HeroesGame
             }
 
             unit.canBeUse = false;
-            if (battle.endOfTheRound() == true)
-            {
-                Gamelogic();
-            }
-            if (battle.winner == "")
-            {
-                battle.colorise(unit, field[unit]);
-                listOfSpells();
-                
-
-                unit = battle.whowillgo();
-  
-                if (unit != null)
-                {
-                    field[unit].Foreground = Brushes.Red;
-                }
-            }
+            endturn(unit);
         }
         private void RedGuy()
         {
@@ -507,25 +502,10 @@ namespace HeroesGame
             
             var unit = battle.whowillgo();
             battle.wait(unit);
-            battle.queue();
             listOfSpells();
             battle.colorise(unit, field[unit]);
 
-            if (battle.endOfTheRound() == true)
-            {
-                Gamelogic();
-            }
-            if (battle.winner == "")
-            {
-                
-
-                unit = battle.whowillgo();
-                battle.colorise(unit, field[unit]);
-                if (unit != null)
-                {                  
-                    field[unit].Foreground = Brushes.Red;
-                }
-            }
+            endturn(unit);
         }
 
 
@@ -535,23 +515,7 @@ namespace HeroesGame
             var unit = battle.whowillgo();
             battle.defend(unit);
             listOfSpells();
-            if (battle.endOfTheRound() == true)
-            {
-                Gamelogic();
-            }
-            if (battle.winner == "")
-            {
-                
-               
-                
-                unit = battle.whowillgo();
-                battle.colorise(unit, field[unit]);
-                listOfSpells();
-                if (unit != null)
-                {
-                    field[unit].Foreground = Brushes.Red;
-                }
-            }
+            endturn(unit);
         }
        
         private void defeatButton(object sender, RoutedEventArgs e)
@@ -564,71 +528,32 @@ namespace HeroesGame
         {
             var unit = battle.whowillgo();
             string s = ((sender as ListBox).SelectedItem as string);
-            if ((s != "Default Modificators :") || (s != "Default Spells :"))
+        
+            if ((s != "Default Spells(Clickable) :") &&(s != null))
             {
-
-                if (s == "Fire_Ball")
+                if (spellsList[s].solo == true)
+                    spellsList[s].Doing(unit);
+                else
                 {
                     usingMagic = true;
                     nameOfSpells = s;
                 }
-                if (s == "Ice_Ball")
-                {
-                    usingMagic = true;
-                    nameOfSpells = s;
-                }
-                if (s == "Extra_Defence")
-                { 
-                    battleStatus.Text = battle.Magic(s, unit) + "\n";
-                }
-                if (s == "Double_Attack")
-                {
-                    usingMagic = true;
-                    nameOfSpells = s;
-                }
-                if (s == "Extra_Damage")
-                {
-                   battleStatus.Text = battle.Magic(s,unit) + "\n";
-                }
-                if (s == "Extra_Initiative")
-                {
-                    battleStatus.Text = battle.Magic(s, unit) + "\n";
-                }
             }
 
-            if (battle.endOfTheRound() == true)
-            {
-                Gamelogic();
-            }
-            if (battle.winner == "")
-            {
-                battle.colorise(unit, field[unit]);
-
-                unit = battle.whowillgo();
-                if (unit != null)
-                {
-                    field[unit].Foreground = Brushes.Red;
-                }
-            }
+            endturn(unit);
 
         }
+        Dictionary<string, Ispell> spellsList = new Dictionary<string, Ispell>();
         private void listOfSpells()
         {
+            spellsList.Clear();
             feat.Clear();
             var unit = battle.whowillgo();
-            feat.Add("Default Modificators :");
-            foreach (var a in unit.mdf.mod.all.Keys)
-            {
-                if(unit.mdf.mod.all[a].canBeUsed == true)
-                feat.Add(a);
-
-            }
             feat.Add("\nDefault Spells (Clickable) :");
-            foreach (var a in unit.mdf.spells.all.Keys)
+            foreach (var a in unit.abl)
             {
-                if (unit.mdf.spells.all[a].canBeUsed == true)
-                  feat.Add(a);
-
+                feat.Add(a.Name);
+                spellsList.Add(a.Name, a);
             }
             abilities.ItemsSource = feat;
         }

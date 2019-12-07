@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HeroesGame
 {
-    class BattleUnitStack
+    public class BattleUnitStack
     {
         public int positionX;
         public int positionY;
@@ -29,7 +29,9 @@ namespace HeroesGame
 
         }
         public BUnitstack bus;
-        public Posibilities mdf;
+        //public Posibilities mdf;
+        public List<Ispell> abl;
+        public List<Imod> mod;
         public BattleUnitStack(UnitStack b)
         {
             bus.qty = b.qty;
@@ -42,7 +44,8 @@ namespace HeroesGame
             bus.StandardDefence = b._Unit_.Defence;
             bus.Initiative = b._Unit_.Initiative;
             bus.StandardInitiative = b._Unit_.Initiative;
-            mdf = new Posibilities(b._Unit_.Type);
+            abl = b._Unit_.abl;
+            mod = b._Unit_.mod;
         }
         public void changeParametrs((int,int) damch,int hitpointsch,int attch,int defch,int inich)
         {

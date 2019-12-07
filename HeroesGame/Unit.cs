@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace HeroesGame
 {
-    
-    class Unit
+    public class Unit
     {
+        public List<Imod> mod = new List<Imod>();
+        public List<Ispell> abl = new List<Ispell>();
         public (int, int) Damage { get; }
         public string Type { get; }
         public int Hitpoints { get; }
