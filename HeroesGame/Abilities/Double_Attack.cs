@@ -8,6 +8,7 @@ namespace HeroesGame.Abilities
 {
     class Double_Attack : Ispell
     {
+        public string typeofmagic { get; set; }
         public int duration { get; set; }
         public string Name { get; set; }
         public bool solo { get; set; }

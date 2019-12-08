@@ -14,7 +14,7 @@ namespace HeroesGame
         public int army;
         
 
-        public struct BUnitstack
+        public struct BUnitStack
         {
             public (int, int) Damage;
             public string Type;
@@ -28,7 +28,7 @@ namespace HeroesGame
             public int StandardDefence;
 
         }
-        public BUnitstack bus;
+        public BUnitStack bus;
         //public Posibilities mdf;
         public List<Ispell> abl;
         public List<Imod> mod;

@@ -8,7 +8,7 @@ namespace HeroesGame.Abilities
 {
     public class Extra_Damage : Ispell
     {
-        //public BattleUnitStack b;
+        public string typeofmagic { get; set; }
         public int duration { get; set; }
         public string Name { get; set; }
         public bool solo { get; set; }

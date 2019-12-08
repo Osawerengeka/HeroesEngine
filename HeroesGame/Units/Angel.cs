@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HeroesGame.Units
 {
-    class Angel : Unit
+    public class Angel : Unit
     {
         public Angel() : base("ANGEL", 180, 27, 27,(45,45), 11)
         {

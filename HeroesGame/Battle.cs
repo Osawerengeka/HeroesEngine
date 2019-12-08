@@ -37,6 +37,7 @@ namespace HeroesGame
 
         private void ini()
         {
+            attem.Clear();
             for (int i = 0; i < player[0].army.Count; i++)
             {
                 player[0].army[i].army = 0;
@@ -93,7 +94,7 @@ namespace HeroesGame
 
         public void queue()
         {
-
+            ini();
             for (int i = 0; i < player[0].army.Count + player[1].army.Count; i++)
             {
                 for (int j = 0; j < player[0].army.Count + player[1].army.Count; j++)
@@ -277,112 +278,6 @@ namespace HeroesGame
             }
         }
 
-        /*
-        public string Magic(string f, BattleUnitStack b, BattleUnitStack def = null)
-        {
-            if (b.mdf.spells.all[f].coolDown == 0)
-            {
-                if (f == "Extra_Damage")
-                {
-                    b.mdf.spells.all["Extra_Damage"].terns = 3;
-                    
-                    b.bus.Damage.Item1 *= 2;
-                    b.bus.Damage.Item2 *= 2;
-                    b.mdf.spells.all["Extra_Damage"].coolDown = 6;
-                    return b.bus.Type + " Increased his Damage for " + b.mdf.spells.all["Extra_Damage"].terns + " Rounds";
-                }
-                if (f == "Extra_Initiative")
-                {
-                    b.mdf.spells.all[f].terns = 2;
-                    b.mdf.spells.all[f].coolDown = 4;
-                    b.bus.Initiative *= (int)1.5;
-                    return b.bus.Type + " Increased his Initiative for " + b.mdf.spells.all["Extra_Initiative"].terns + " Rounds";
-                }
-                if (f == "Extra_Defence")
-                {
-                    b.mdf.spells.all[f].terns = 2;
-                    b.mdf.spells.all[f].coolDown = 4;
-                    b.bus.Defence *= (int)1.5;
-                    return b.bus.Type + " Increased his Defence for " + b.mdf.spells.all["Extra_Defence"].terns + " Rounds";
-                }
-                if (f == "Double_Attack")
-                {                  
-                    b.mdf.spells.all[f].coolDown = 5;
-                    string defender = def.bus.Type;
-                    string res = attack(b, def);
-                    if ((res != "Killed") && (res != "Was Failed by"))
-                    {
-                        res = attack(b, def);
-                        b.canBeUse = false;
-                    }
-                    return b.bus.Type + res  + defender + " Two times";
-                    
-                }
-                if (f == "Fire_Ball")
-                {
-                    if (!def.mdf.mod.all["Fire_Imm"].canBeUsed)
-                    {
-                        int beat = def.bus.Hitpoints + def.bus.qty * def.bus.StandardHitpoints;
-                        int power = b.bus.qty * 40;
-                        if (beat - power > 0)
-                        {
-                            def.bus.qty = (beat - power) / def.bus.StandardHitpoints;
-                            def.bus.Hitpoints = (beat - power) % def.bus.StandardHitpoints;
-                            b.mdf.spells.all[f].coolDown = 8;
-                        }
-                        else
-                        {
-                            string defender = def.bus.Type;
-                            Kill(def);
-                            return b.bus.Type + " kills " + defender + " using " + f;
-                        }
-                        b.canBeUse = false;
-                        return b.bus.Type + " use" + f + " to " + def.bus.Type;
-                    }
-                    else
-                    {
-                        b.mdf.spells.all[f].coolDown = 8;
-                        b.canBeUse = false;
-                        return def.bus.Type + " Have fire Immune " + ". 0 Damage was inflicted";
-                    }
-                }
-                if (f == "Ice_Ball")
-                {
-                    
-                    if (!def.mdf.mod.all["Ice_Imm"].canBeUsed)
-                    {
-
-                        int beat = def.bus.Hitpoints + def.bus.qty * def.bus.StandardHitpoints;
-                        int power = b.bus.qty * 40;
-                        if (beat - power > 0)
-                        {
-                            def.bus.qty = (beat - power) / def.bus.StandardHitpoints;
-                            def.bus.Hitpoints = (beat - power) % def.bus.StandardHitpoints;
-                            b.mdf.spells.all[f].coolDown = 8;
-                        }
-                        else
-                        {
-                            string defender = def.bus.Type;
-                            Kill(def);
-                            return b.bus.Type + " kills " + defender + " using " + f ;
-                        }
-                        b.canBeUse = false;
-                        return b.bus.Type + " use" + f + " to " + def.bus.Type;
-                    }
-                    else
-                    {
-                        b.mdf.spells.all[f].coolDown = 8;
-                        b.canBeUse = false;
-                        return def.bus.Type + " Have Ice Immune " + ". 0 Damage was inflicted";
-                    }
-                   
-
-                }
-
-            }
-            return "Not ready.Wait " + b.mdf.spells.all[f].coolDown + " rounds";
-        }
-        */
         public string winCondition()
         {
             if (player[0].army.Count == 0)

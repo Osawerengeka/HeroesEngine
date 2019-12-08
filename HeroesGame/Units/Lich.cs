@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HeroesGame
+namespace HeroesGame.Units
 {
-    class Lich : Unit
+    public class Lich : Unit
     {
         public Lich() : base("LICH",50,15,15,(12,17),10)
         {

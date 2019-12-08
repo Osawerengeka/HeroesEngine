@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HeroesGame.Abilities;
-namespace HeroesGame
+
+namespace HeroesGame.Units
 {
-    class Sceleton : Unit
+    public class Sceleton : Unit
     {
 
         public Sceleton() : base("SCELETON",5,1,2,(1,1),10)

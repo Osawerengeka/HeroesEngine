@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HeroesGame
+namespace HeroesGame.Units
 {
-    class Warrior : Unit
+    public class Warrior : Unit
     {
        
         public Warrior() : base("WARRIOR", 16, 5,3,(5,7),16)
